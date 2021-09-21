@@ -30,8 +30,6 @@ COPY docker/postgresql.conf /etc/postgresql/
 RUN chmod +x /docker-entrypoint-initdb.d/entrypoint_postgres.sh
 RUN dos2unix /docker-entrypoint-initdb.d/entrypoint_postgres.sh
 
-RUN echo "shared_preload_libraries = 'citus'" > /etc/postgresql/postgresql.conf
-
 EXPOSE 5432
 
 ###############################################################################################
