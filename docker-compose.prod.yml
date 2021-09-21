@@ -1,0 +1,42 @@
+version: '3.9'
+services:
+  levell-postgresadmin:
+    image: ghcr.io/jimmylevell/postgres/levell_pgadmin:latest
+    networks:
+      - levell
+      - traefik-public
+    environment: 
+      PGADMIN_DEFAULT_EMAIL: admin@levell.ch
+      PGADMIN_DEFAULT_PASSWORD: DOCKER-SECRET->pgadmin_password
+    secrets:
+      - pgadmin_password
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+      labels:
+      - traefik.enable=true # enable traefik
+      - traefik.docker.network=traefik-public # put it in the same network as traefik
+      - traefik.constraint-label=traefik-public # assign the same label as traefik so it can be discovered
+      - traefik.http.routers.levellpgadmin.rule=Host(`pgadmin.app.levell.ch`) # listen to port 80 for request to APP_DOMAIN (use together with the line below)
+      - traefik.http.routers.levellpgadmin.entrypoints=http
+      - traefik.http.routers.levellpgadmin.middlewares=https-redirect
+      - traefik.http.middlewares.levellpgadmin.redirectscheme.scheme=https # redirect traffic to https
+      - traefik.http.middlewares.levellpgadmin.redirectscheme.permanent=true # redirect traffic to https
+      - traefik.http.routers.levellpgadmin-secured.rule=Host(`pgadmin.app.levell.ch`) # listen to port 443 for request to APP_DOMAIN (use together with the line below)
+      - traefik.http.routers.levellpgadmin-secured.entrypoints=https
+      - traefik.http.routers.levellpgadmin-secured.tls.certresolver=le # use the Let's Encrypt certificate we set up earlier
+      - traefik.http.services.levellpgadmin-secured.loadbalancer.server.port=80 # ask Traefik to search for port service container
+  
+networks:
+  traefik-public:
+    external: true
+  levell:
+    external: true
+
+secrets:
+  pgadmin_password:
+    external: true  
