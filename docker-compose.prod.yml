@@ -1,5 +1,25 @@
 version: '3.9'
 services:
+  levell-postgres:
+    image: ghcr.io/jimmylevell/postgres/levell_postgres:latest
+    networks:
+      - levell
+    ports:
+      - "5432:5432"
+    environment: 
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+    secrets:
+      - postgres_password
+    volumes: 
+      - postgresdata:/var/lib/postgresql/data
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+
   levell-postgresadmin:
     image: ghcr.io/jimmylevell/postgres/levell_pgadmin:latest
     networks:
