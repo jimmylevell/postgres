@@ -57,6 +57,10 @@ networks:
   levell:
     external: true
 
+volumes: 
+  postgresdata:
+    external: true
+    
 secrets:
   pgadmin_password:
     external: true  
