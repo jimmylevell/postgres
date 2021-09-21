@@ -60,3 +60,5 @@ networks:
 secrets:
   pgadmin_password:
     external: true  
+  postgres_password:
+    external: true
