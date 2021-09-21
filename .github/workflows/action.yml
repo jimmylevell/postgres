@@ -36,7 +36,7 @@ jobs:
           push: true
           target: levell-pgadmin-deploy
           tags: |
-            ghcr.io/levell-data-lab/postgres/levell_pgadmin:latest
+            ghcr.io/jimmylevell/postgres/levell_pgadmin:latest
       -
         name: Deploy to swarm
         uses: wshihadeh/docker-deployment-action@v2
