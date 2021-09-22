@@ -25,7 +25,7 @@ RUN bash add-citus-repo.sh
 RUN apt-get -y install postgresql-13-citus-10.2
 
 COPY docker/entrypoint_postgres.sh /docker-entrypoint-initdb.d/
-COPY docker/postgresql.conf /etc/postgresql/
+COPY docker/postgresql.conf /var/lib/postgresql/data/postgresql.conf
 
 RUN dos2unix /etc/postgresql/postgresql.conf
 RUN chmod +x /docker-entrypoint-initdb.d/entrypoint_postgres.sh
