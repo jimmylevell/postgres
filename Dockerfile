@@ -19,15 +19,16 @@ RUN apt-get install dos2unix -y
 ###############################################################################################
 FROM levell-postgres-base as levell-postgres-deploy
 
+# Install citus
 RUN apt-get -y install curl
 RUN curl https://install.citusdata.com/community/deb.sh > add-citus-repo.sh
 RUN bash add-citus-repo.sh
 RUN apt-get -y install postgresql-13-citus-10.2
 
-COPY docker/entrypoint_postgres.sh /docker-entrypoint-initdb.d/
-COPY docker/postgresql.conf /var/lib/postgresql/data/postgresql.conf
+# enable citus
+RUN echo "shared_preload_libraries='citus'" >> /usr/share/postgresql/postgresql.conf.sample
 
-RUN dos2unix /var/lib/postgresql/data/postgresql.conf
+COPY docker/entrypoint_postgres.sh /docker-entrypoint-initdb.d/
 RUN chmod +x /docker-entrypoint-initdb.d/entrypoint_postgres.sh
 RUN dos2unix /docker-entrypoint-initdb.d/entrypoint_postgres.sh
 
