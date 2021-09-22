@@ -26,7 +26,7 @@ RUN bash add-citus-repo.sh
 RUN apt-get -y install postgresql-13-citus-10.2
 
 # enable citus
-RUN echo "shared_preload_libraries='citus'" >> /usr/share/postgresql/postgresql.conf.sample
+RUN echo "shared_preload_libraries='citus'" >> /usr/share/postgresql/13/postgresql.conf.sample
 
 COPY docker/entrypoint_postgres.sh /docker-entrypoint-initdb.d/
 RUN chmod +x /docker-entrypoint-initdb.d/entrypoint_postgres.sh
