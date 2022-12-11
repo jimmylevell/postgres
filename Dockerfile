@@ -39,7 +39,7 @@ EXPOSE 5432
 # levell pgadmin - BASE
 ###############################################################################################
 ###############################################################################################
-FROM dpage/pgadmin4:latest as levell-pgadmin-base
+FROM dpage/pgadmin4:6.17 as levell-pgadmin-base
 
 USER root
 RUN mkdir -p /docker
