@@ -13,6 +13,8 @@ RUN apt-get upgrade -y
 RUN apt-get install vim -y
 RUN apt-get install net-tools -y
 RUN apt-get install dos2unix -y
+RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+RUN locale-gen
 
 ###############################################################################################
 # levell postgres - PRODUCTION
