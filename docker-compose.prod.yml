@@ -4,7 +4,6 @@ services:
     image: ghcr.io/jimmylevell/postgres/levell_postgres:latest
     networks:
       - levell
-      - traefik-public
     ports:
       - "5432:5432"
     environment:
