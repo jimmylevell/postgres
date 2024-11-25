@@ -3,7 +3,7 @@
 # levell postgres - BASE
 ###############################################################################################
 ###############################################################################################
-FROM postgres:14.7 as levell-postgres-base
+FROM postgres:17.2 as levell-postgres-base
 
 RUN mkdir -p /docker
 
