@@ -3,18 +3,23 @@
 # levell postgres - BASE
 ###############################################################################################
 ###############################################################################################
-FROM postgres:14.7 as levell-postgres-base
+FROM postgres:14.7-bookworm as levell-postgres-base
 
 RUN mkdir -p /docker
 
+# The stock postgres:14.7 image on Bullseye includes an old pgdg apt source that
+# no longer exposes a valid Release file. Remove it before refreshing package indexes.
+RUN rm -f /etc/apt/sources.list.d/pgdg.list /etc/apt/sources.list.d/pgdg.sources
+
 # update the image
-RUN apt-get -o Acquire::Check-Valid-Until=false -o Acquire::Check-Date=false update
-RUN apt-get upgrade -y
-RUN apt-get install vim -y
-RUN apt-get install net-tools -y
-RUN apt-get install dos2unix -y
-RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
-RUN locale-gen
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+        vim \
+        net-tools \
+        dos2unix \
+    && echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
+    && locale-gen \
+    && rm -rf /var/lib/apt/lists/*
 
 ###############################################################################################
 # levell postgres - PRODUCTION
