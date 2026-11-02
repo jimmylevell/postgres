@@ -3,7 +3,7 @@
 # levell postgres - BASE
 ###############################################################################################
 ###############################################################################################
-FROM postgres:14.7-bullseye AS levell-postgres-base
+FROM postgres:17.5-bullseye AS levell-postgres-base
 
 RUN mkdir -p /docker
 
