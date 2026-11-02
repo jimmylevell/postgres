@@ -3,7 +3,7 @@
 # levell postgres - BASE
 ###############################################################################################
 ###############################################################################################
-FROM postgres:14.7-bookworm as levell-postgres-base
+FROM postgres:14.7-bullseye AS levell-postgres-base
 
 RUN mkdir -p /docker
 
@@ -24,7 +24,7 @@ RUN apt-get update \
 ###############################################################################################
 # levell postgres - PRODUCTION
 ###############################################################################################
-FROM levell-postgres-base as levell-postgres-deploy
+FROM levell-postgres-base AS levell-postgres-deploy
 
 # Install citus
 RUN apt-get -y install curl
@@ -46,7 +46,7 @@ EXPOSE 5432
 # levell pgadmin - BASE
 ###############################################################################################
 ###############################################################################################
-FROM dpage/pgadmin4:9.17 as levell-pgadmin-base
+FROM dpage/pgadmin4:9.17 AS levell-pgadmin-base
 
 USER root
 RUN mkdir -p /docker
@@ -60,7 +60,7 @@ RUN apk add dos2unix
 ###############################################################################################
 # levell pgadmin - PRODUCTION
 ###############################################################################################
-FROM levell-pgadmin-base as levell-pgadmin-deploy
+FROM levell-pgadmin-base AS levell-pgadmin-deploy
 
 COPY docker/entrypoint_pgadmin.sh /docker/entrypoint.sh
 COPY docker/set_env_secrets.sh /docker/
